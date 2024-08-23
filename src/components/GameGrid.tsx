@@ -1,35 +1,10 @@
 import { useEffect, useState } from "react";
 import apiClient from "../service/api-client";
 import { Spinner, Text } from "@chakra-ui/react";
-
-interface Game {
-  id: number;
-  name: string;
-}
-interface FetchGameResponse {
-  count: number;
-  results: Game[];
-}
+import useGames from "../hooks/useGames";
 
 const GameGrid = () => {
-  const [games, setGames] = useState<Game[]>([]);
-  const [error, setError] = useState();
-  const [isLoading, setIsLoading] = useState(false);
-
-  useEffect(() => {
-    setIsLoading(true);
-    apiClient
-      .get<FetchGameResponse>("/xgames")
-      .then((res) => {
-        setGames(res.data.results);
-        setIsLoading(false);
-      })
-      .catch((err) => {
-        setError(err.message);
-        setIsLoading(false);
-        console.log(err);
-      });
-  }, []);
+  const { isLoading, error, games } = useGames();
 
   if (isLoading) return <Spinner />;
 
