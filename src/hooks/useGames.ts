@@ -3,10 +3,17 @@ import apiClient from "../service/api-client";
 import { CanceledError } from "axios";
 
 
+export interface Platform{
+    id: number;
+    slug: string;
+    name: string;
+}
+
 export interface Game {
     id: number;
     name: string;
     background_image: string;
+    parent_platforms: {platform: Platform}[]
   }
   interface FetchGameResponse {
     count: number;
@@ -14,7 +21,7 @@ export interface Game {
   }
   
 const useGames = ()=>{
-  const [games, setGames] = useState<Game[]>([]);
+  let [games, setGames] = useState<Game[]>([]);
   const [error, setError] = useState();
   const [isLoading, setIsLoading] = useState(false);
 
@@ -24,6 +31,7 @@ const useGames = ()=>{
     apiClient
       .get<FetchGameResponse>("/xgames", {signal: controller.signal})
       .then((res) => {
+        localStorage.setItem("games", JSON.stringify(res.data.results))
         setGames(res.data.results);
         setIsLoading(false);
       })
@@ -36,6 +44,10 @@ const useGames = ()=>{
 
       return ()=> controller.abort();
   }, []);
+
+  const local = localStorage.getItem('games');
+  games = local? JSON.parse(local): [];
+ 
 
   return {isLoading,error, games}
 }
