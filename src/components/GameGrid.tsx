@@ -3,11 +3,11 @@ import apiClient from "../service/api-client";
 import { SimpleGrid, Spinner, Text } from "@chakra-ui/react";
 import useGames from "../hooks/useGames";
 import GameCard from "./GameCard";
+import GameCardSkeleton from "./GameCardSkeleton";
 
 const GameGrid = () => {
   const { isLoading, error, games } = useGames();
-
-  if (isLoading) return <Spinner />;
+  const skeleton = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10];
 
   return (
     <>
@@ -17,6 +17,7 @@ const GameGrid = () => {
         padding="10px"
         spacing="10px"
       >
+        {isLoading && skeleton.map((s) => <GameCardSkeleton />)}
         {games.map((game) => (
           <GameCard key={game.id} game={game} />
         ))}
