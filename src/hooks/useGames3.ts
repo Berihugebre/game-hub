@@ -21,7 +21,7 @@ export interface Game {
     results: Game[];
   }
   
-const useGames = ()=>{
+const useGames2 = ()=>{
   let [games, setGames] = useState<Game[]>([]);
   const [error, setError] = useState();
   const [isLoading, setIsLoading] = useState(false);
@@ -53,5 +53,5 @@ const useGames = ()=>{
   return {isLoading,error, games}
 }
 
-export default useGames;
+export default useGames2;
 
