@@ -17,7 +17,8 @@ const useGame = (queryGame: QueryGame)=> useData<Game>('/games',
     params:{
       genres: queryGame.genre?.id, 
       platforms: queryGame.platform?.id,
-      ordering: queryGame.sortOrder
+      ordering: queryGame.sortOrder,
+      search: queryGame.searchText
     }}, [queryGame]);
 
 export default useGame;

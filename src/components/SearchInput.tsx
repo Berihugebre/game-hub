@@ -7,17 +7,24 @@ interface Props {
 }
 
 const SearchInput = ({ onSearch }: Props) => {
-  const InputRef = useRef<HTMLInputElement>(null);
+  const inputRef = useRef<HTMLInputElement>(null);
   return (
-    <InputGroup>
-      <InputLeftElement children={<BsSearch />} />
-      <Input
-        ref={InputRef}
-        placeholder="Search games..."
-        variant="filled"
-        borderRadius={20}
-      />
-    </InputGroup>
+    <form
+      onSubmit={(event) => {
+        event.preventDefault();
+        if (inputRef.current) onSearch(inputRef.current.value);
+      }}
+    >
+      <InputGroup>
+        <InputLeftElement children={<BsSearch />} />
+        <Input
+          ref={inputRef}
+          placeholder="Search games..."
+          variant="filled"
+          borderRadius={20}
+        />
+      </InputGroup>
+    </form>
   );
 };
 
